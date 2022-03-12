@@ -1,0 +1,14 @@
+{
+	// List of extensions which should be recommended for users of this workspace.
+	"recommendations": [
+		"dbaeumer.vscode-eslint", 
+		"ms-vscode.js-debug-companion", 
+		"ms-vscode.js-debug",
+		"streetsidesoftware.code-spell-checker",
+		"mikestead.dotenv"
+	],
+	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+	"unwantedRecommendations": [
+		
+	]
+}

@@ -1,0 +1,19 @@
+name: CD
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v1
+        - name: Set version
+          run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        - name: Login to DockerHub Registry
+          run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        - name: Build the latest Docker image
+          run: docker build . --file dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVICE_NAME }}:latest --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVICE_NAME }}:${{ env.RELEASE_VERSION }}
+        - name: Push the latest Docker image
+          run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/broker-service  --all-tags
